@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gotham Blog</title>
+    <style>
+        body {
+            background-color: #0d0d0d;
+            color: #f1c40f;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #1b1b1b;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #f1c40f;
+        }
+        header h1 {
+            margin: 0;
+            color: #f1c40f;
+        }
+        .container {
+            padding: 20px;
+        }
+        .post {
+            background-color: #262626;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-left: 5px solid #f1c40f;
+            border-radius: 5px;
+        }
+        .post h2 {
+            margin-top: 0;
+        }
+        .post p {
+            color: #cccccc;
+        }
+        .nav {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .nav a {
+            color: #f1c40f;
+            margin: 0 10px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .nav a:hover {
+            text-decoration: underline;
+        }
+
+        .edit{
+         color: black;
+         font-size: small;
+         padding-left: 5px;
+         padding-right: 5px;
+        text-decoration: none;
+        background-color: yellow;
+        }
+        button{
+        background-color: yellow
+        }
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Tochi's Blog</h1>
+    </header>
+{% if current_user.is_authenticated %}
+    <h2>welcome {{ current_user.username }}!</h2>
+    {% endif %}
+    <div class="container">
+        {% for post in posts %}
+
+            <div class="post">
+                <h2>{{ post.title }}</h2>
+                <p><em>by {{ post.author.username }}</em></p>
+                <p>{{ post.content }}</p>
+                <form action="{{ url_for('delete_post', post_id=post.id) }}" method="POST" style="display:inline;">
+    <button>
+        Delete
+    </button>
+</form>
+                <a class="edit" href="{{ url_for('edit_post', post_id=post.id) }}">edit</a>
+
+
+            </div>
+        {% else %}
+            <p>No posts found.</p>
+        {% endfor %}
+
+    </div>
+    <div class="nav">
+        <a href="{{ url_for('create') }}">Create Post</a> |
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+
+
+
+</body>
+</html>
